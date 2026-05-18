@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/restaurants/[id]/edit/page": "/dashboard/restaurants/[id]/edit",
+  "/dashboard/restaurants/new/page": "/dashboard/restaurants/new",
+  "/dashboard/restaurants/page": "/dashboard/restaurants",
+  "/login/page": "/login",
+  "/page": "/"
+}
