@@ -5,6 +5,8 @@ import { ContentSectionFields } from "./content-section-fields";
 
 type Props = {
   sections: ContentSection[];
+  restaurantId?: string;
+  restaurantName: string;
   onChange: (sections: ContentSection[]) => void;
 };
 
@@ -12,7 +14,12 @@ function normalizeOrder(sections: ContentSection[]) {
   return sections.map((s, i) => ({ ...s, order: i }));
 }
 
-export function RestaurantContentSectionsEditor({ sections, onChange }: Props) {
+export function RestaurantContentSectionsEditor({
+  sections,
+  restaurantId,
+  restaurantName,
+  onChange,
+}: Props) {
   const addSection = () => {
     onChange(
       normalizeOrder([
@@ -69,6 +76,8 @@ export function RestaurantContentSectionsEditor({ sections, onChange }: Props) {
             section={section}
             index={index}
             total={sections.length}
+            restaurantId={restaurantId}
+            restaurantName={restaurantName}
             onChange={updateSection}
             onRemove={removeSection}
             onMoveUp={(i) => move(i, -1)}

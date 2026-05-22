@@ -40,12 +40,14 @@ function preparePayload(form: RestaurantFormData): RestaurantFormData {
 
 type Props = {
   initial?: Partial<Restaurant>;
+  restaurantId?: string;
   onSubmit: (data: RestaurantFormData) => Promise<void>;
   submitLabel?: string;
 };
 
 export function RestaurantForm({
   initial,
+  restaurantId,
   onSubmit,
   submitLabel = "Save",
 }: Props) {
@@ -85,11 +87,14 @@ export function RestaurantForm({
     <form onSubmit={handleSubmit} className="max-w-2xl">
       <RestaurantSidebarFields
         form={form}
+        restaurantId={restaurantId}
         onChange={handleChange}
         onImagesChange={(images) => setForm((prev) => ({ ...prev, images }))}
       />
       <RestaurantContentSectionsEditor
         sections={form.contentSections ?? []}
+        restaurantId={restaurantId}
+        restaurantName={form.name?.trim() || ""}
         onChange={(contentSections: ContentSection[]) =>
           setForm((prev) => ({ ...prev, contentSections }))
         }

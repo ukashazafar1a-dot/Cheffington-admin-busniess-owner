@@ -27,6 +27,7 @@ export default function EditRestaurantPage() {
       <h1 className="text-2xl font-bold mb-6">Edit restaurant</h1>
       <RestaurantForm
         initial={restaurant}
+        restaurantId={id}
         submitLabel="Update"
         onSubmit={async (data) => {
           await APIClient.updateRestaurant(id, data);

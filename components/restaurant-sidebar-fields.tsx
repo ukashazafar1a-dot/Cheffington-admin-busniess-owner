@@ -1,16 +1,24 @@
 "use client";
 
 import type { RestaurantFormData } from "@/lib/types";
+import { useImageDisplayUrls } from "@/lib/use-image-display-urls";
+import { RestaurantImageUpload } from "./restaurant-image-upload";
 
 type Props = {
   form: RestaurantFormData;
+  restaurantId?: string;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
   onImagesChange: (images: string[]) => void;
 };
 
-export function RestaurantSidebarFields({ form, onChange, onImagesChange }: Props) {
+export function RestaurantSidebarFields({
+  form,
+  restaurantId,
+  onChange,
+  onImagesChange,
+}: Props) {
   type SidebarFieldKey = Exclude<
     keyof RestaurantFormData,
     "images" | "contentSections" | "status"
@@ -29,15 +37,12 @@ export function RestaurantSidebarFields({ form, onChange, onImagesChange }: Prop
     </div>
   );
 
-  const addHeroImage = () => onImagesChange([...(form.images ?? []), ""]);
-  const updateHeroImage = (index: number, value: string) => {
-    const images = [...(form.images ?? [])];
-    images[index] = value;
-    onImagesChange(images);
-  };
   const removeHeroImage = (index: number) => {
     onImagesChange((form.images ?? []).filter((_, i) => i !== index));
   };
+
+  const { displayUrl, setDisplayUrl } = useImageDisplayUrls(form.images ?? []);
+  const canUpload = Boolean(restaurantId && form.name?.trim());
 
   return (
     <div className="mb-8 pb-8 border-b border-gray-200">
@@ -74,29 +79,51 @@ export function RestaurantSidebarFields({ form, onChange, onImagesChange }: Prop
       </div>
 
       <div className="mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <label className="text-sm font-medium">Hero photos (URLs)</label>
-          <button
-            type="button"
-            onClick={addHeroImage}
-            className="text-xs text-[#ff8400] font-semibold"
-          >
-            + Add photo URL
-          </button>
-        </div>
+        <label className="text-sm font-medium block mb-2">Hero photos</label>
+
+        {!restaurantId && (
+          <p className="text-sm text-gray-500 mb-2">
+            Save the restaurant first, then add photos on the edit page.
+          </p>
+        )}
+
+        {restaurantId && !form.name?.trim() && (
+          <p className="text-sm text-amber-700 mb-2">
+            Enter a restaurant name before uploading photos.
+          </p>
+        )}
+
+        {canUpload && (
+          <RestaurantImageUpload
+            restaurantId={restaurantId!}
+            restaurantName={form.name.trim()}
+            kind="hero"
+            label="+ Upload hero photo"
+            onUploaded={(publicUrl, previewUrl) => {
+              setDisplayUrl(publicUrl, previewUrl);
+              onImagesChange([...(form.images ?? []), publicUrl]);
+            }}
+          />
+        )}
+
         {(form.images ?? []).map((url, index) => (
-          <div key={index} className="flex gap-2 mb-2">
-            <input
-              type="url"
-              value={url}
-              onChange={(e) => updateHeroImage(index, e.target.value)}
-              placeholder="https://example.com/hero.jpg"
-              className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
-            />
+          <div key={`${url}-${index}`} className="flex gap-2 mb-3 items-start">
+            <div className="w-20 h-20 shrink-0 rounded overflow-hidden bg-gray-100 border">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={displayUrl(url)}
+                alt={`Hero ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-gray-600 break-all">{url}</p>
+            </div>
             <button
               type="button"
               onClick={() => removeHeroImage(index)}
-              className="px-2 text-red-600"
+              className="px-2 text-red-600 shrink-0"
+              aria-label="Remove photo"
             >
               ×
             </button>
