@@ -132,6 +132,30 @@ export class APIClient {
     return this.request(`/owner/restaurants/${id}`, { method: "DELETE" });
   }
 
+  static async getBannedPhrases() {
+    return this.request("/owner/review-moderation/banned-phrases");
+  }
+
+  static async createBannedPhrase(phrase: string) {
+    return this.request("/owner/review-moderation/banned-phrases", {
+      method: "POST",
+      body: JSON.stringify({ phrase }),
+    });
+  }
+
+  static async updateBannedPhrase(id: string, phrase: string) {
+    return this.request(`/owner/review-moderation/banned-phrases/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ phrase }),
+    });
+  }
+
+  static async deleteBannedPhrase(id: string) {
+    return this.request(`/owner/review-moderation/banned-phrases/${id}`, {
+      method: "DELETE",
+    });
+  }
+
   static async presignRestaurantImage(body: {
     restaurantId: string;
     restaurantName: string;
