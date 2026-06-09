@@ -45,29 +45,3 @@ export interface Restaurant {
 }
 
 export type RestaurantFormData = Omit<Restaurant, "_id" | "createdAt" | "updatedAt">;
-
-export interface OwnerBannedPhrase {
-  _id: string;
-  phrase: string;
-  createdAt?: string;
-  updatedAt?: string;
-  ownerId?: string;
-}
-
-export interface OwnerReviewChef {
-  id: string;
-  firstName: string;
-  lastName: string;
-  profilePhotoUrl?: string;
-}
-
-export interface OwnerReview {
-  _id: string;
-  title?: string;
-  comment: string;
-  status: "published" | "flagged" | "removed";
-  flaggedReason?: string;
-  createdAt: string;
-  updatedAt?: string;
-  chef?: OwnerReviewChef;
-}

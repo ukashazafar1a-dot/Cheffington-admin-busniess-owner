@@ -16,7 +16,7 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push("/login");
+      router.replace("/login");
     }
   }, [isLoading, isAuthenticated, router]);
 
@@ -33,7 +33,6 @@ export default function DashboardLayout({
   const nav = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/dashboard/restaurants", label: "Restaurants" },
-    { href: "/dashboard/review-moderation", label: "Review Moderation" },
   ];
 
   const isNavActive = (href: string) => {

@@ -24,12 +24,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem("owner_token");
-        if (!token) return;
+        if (!token) {
+          setOwner(null);
+          return;
+        }
         const response = await APIClient.getCurrentOwner();
         if (response.success) setOwner(response.owner);
-        else localStorage.removeItem("owner_token");
+        else {
+          localStorage.removeItem("owner_token");
+          setOwner(null);
+        }
       } catch {
         localStorage.removeItem("owner_token");
+        setOwner(null);
       } finally {
         setIsLoading(false);
       }
