@@ -45,3 +45,26 @@ export interface Restaurant {
 }
 
 export type RestaurantFormData = Omit<Restaurant, "_id" | "createdAt" | "updatedAt">;
+
+export interface OwnerDashboardStats {
+  restaurants: {
+    total: number;
+    published: number;
+    draft: number;
+    archived: number;
+  };
+  totalChefReviews: number;
+  reviewsByRestaurant: Array<{
+    restaurantId: string;
+    name: string;
+    reviewCount: number;
+  }>;
+  reviewsByMonth: Array<{
+    month: string;
+    reviews: number;
+  }>;
+  recentActivity: Array<{
+    message: string;
+    date: string;
+  }>;
+}

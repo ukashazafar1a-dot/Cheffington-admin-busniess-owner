@@ -110,6 +110,10 @@ export class APIClient {
     return this.request("/owner/restaurants");
   }
 
+  static async getDashboardStats() {
+    return this.request("/owner/dashboard/stats");
+  }
+
   static async getRestaurant(id: string) {
     return this.request(`/owner/restaurants/${id}`);
   }
