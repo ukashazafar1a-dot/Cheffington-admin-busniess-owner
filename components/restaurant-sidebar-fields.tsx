@@ -67,15 +67,15 @@ export function RestaurantSidebarFields({
       {field("cuisine", "Cuisine / tagline")}
       {field("phone", "Phone")}
       {field("website", "Website")}
-      {field("addressLine1", "Address line 1", true)}
+      {field("addressLine1", "Address line 1")}
       {field("addressLine2", "Address line 2")}
       <div className="grid grid-cols-2 gap-4">
-        {field("city", "City", true)}
-        {field("state", "State", true)}
+        {field("city", "City")}
+        {field("state", "State")}
       </div>
       <div className="grid grid-cols-2 gap-4">
-        {field("zipCode", "Zip code", true)}
-        {field("country", "Country", true)}
+        {field("zipCode", "Zip code")}
+        {field("country", "Country")}
       </div>
 
       <div className="mb-4">

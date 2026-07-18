@@ -28,12 +28,12 @@ export interface Restaurant {
   cuisine?: string;
   phone?: string;
   website?: string;
-  addressLine1: string;
+  addressLine1?: string;
   addressLine2?: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
   latitude?: number | null;
   longitude?: number | null;
   geocodePrecision?: "exact" | "city" | "region" | "none";
