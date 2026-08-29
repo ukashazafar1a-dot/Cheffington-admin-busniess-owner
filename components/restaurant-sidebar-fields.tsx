@@ -64,7 +64,28 @@ export function RestaurantSidebarFields({
           className="w-full border border-gray-300 rounded px-3 py-2"
         />
       </div>
-      {field("cuisine", "Cuisine / tagline")}
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">Cuisine type</label>
+        <input
+          name="cuisine"
+          value={String(form.cuisine ?? "")}
+          onChange={onChange}
+          placeholder="Italian, Mexican, …"
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">
+          Tagline (optional)
+        </label>
+        <input
+          name="tagline"
+          value={String(form.tagline ?? "")}
+          onChange={onChange}
+          placeholder="Short slogan — not the cuisine type"
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
+      </div>
       {field("phone", "Phone")}
       {field("website", "Website")}
       {field("addressLine1", "Address line 1")}

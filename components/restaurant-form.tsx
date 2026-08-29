@@ -9,6 +9,7 @@ const emptyForm: RestaurantFormData = {
   name: "",
   description: "",
   cuisine: "",
+  tagline: "",
   phone: "",
   website: "",
   addressLine1: "",
