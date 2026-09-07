@@ -37,7 +37,7 @@ export class APIClient {
     fields: {
       restaurantId: string;
       restaurantName: string;
-      kind: "hero" | "section";
+      kind: "hero" | "section" | "logo";
     }
   ) {
     const url = `${API_BASE_URL}/owner/uploads`;
@@ -139,7 +139,7 @@ export class APIClient {
   static async presignRestaurantImage(body: {
     restaurantId: string;
     restaurantName: string;
-    kind: "hero" | "section";
+    kind: "hero" | "section" | "logo";
     contentType: string;
     filename: string;
     contentLength?: number;

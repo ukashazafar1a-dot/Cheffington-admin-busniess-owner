@@ -19,13 +19,15 @@ const emptyForm: RestaurantFormData = {
   zipCode: "",
   country: "",
   images: [],
+  logoUrl: "",
   contentSections: [],
-  status: "draft",
+  status: "pending_review",
 };
 
 function preparePayload(form: RestaurantFormData): RestaurantFormData {
   return {
     ...form,
+    logoUrl: (form.logoUrl ?? "").trim(),
     images: (form.images ?? []).map((u) => u.trim()).filter(Boolean),
     contentSections: (form.contentSections ?? [])
       .map((s, i) => ({
@@ -56,14 +58,19 @@ export function RestaurantForm({
     ...emptyForm,
     ...initial,
     images: initial?.images ?? [],
+    logoUrl: initial?.logoUrl ?? "",
     contentSections: (initial?.contentSections ?? []).map((s, i) => ({
       ...s,
       order: s.order ?? i,
     })),
-    status: initial?.status ?? "draft",
+    status: initial?.status ?? "pending_review",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const canPublish =
+    Boolean(restaurantId) && initial?.ownerListingApproved !== false;
+  const isRejected = form.status === "rejected";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -86,11 +93,25 @@ export function RestaurantForm({
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl">
+      {isRejected ? (
+        <div className="mb-4 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-950">
+          <p className="font-medium">This listing was not approved.</p>
+          {initial?.listingReviewNote ? (
+            <p className="mt-1">{initial.listingReviewNote}</p>
+          ) : null}
+          <p className="mt-2">
+            Update the details and set status to &quot;Submit for review&quot;
+            to send it again.
+          </p>
+        </div>
+      ) : null}
       <RestaurantSidebarFields
         form={form}
         restaurantId={restaurantId}
+        canPublish={canPublish}
         onChange={handleChange}
         onImagesChange={(images) => setForm((prev) => ({ ...prev, images }))}
+        onLogoChange={(logoUrl) => setForm((prev) => ({ ...prev, logoUrl }))}
       />
       <RestaurantContentSectionsEditor
         sections={form.contentSections ?? []}

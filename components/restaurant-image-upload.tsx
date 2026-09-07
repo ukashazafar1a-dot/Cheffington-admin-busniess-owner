@@ -3,10 +3,16 @@
 import { useRef, useState } from "react";
 import { APIClient, MAX_IMAGE_UPLOAD_BYTES } from "@/lib/api-client";
 
+const IMAGE_UPLOAD_SPECS: Record<"hero" | "section" | "logo", string> = {
+  hero: "JPEG, PNG, or WebP · max 5 MB · recommended 1600×900 px (16:9)",
+  section: "JPEG, PNG, or WebP · max 5 MB · recommended 1200×800 px",
+  logo: "JPEG, PNG, or WebP · max 5 MB · recommended 400×400 px (square)",
+};
+
 type Props = {
   restaurantId: string;
   restaurantName: string;
-  kind: "hero" | "section";
+  kind: "hero" | "section" | "logo";
   onUploaded: (publicUrl: string, displayUrl: string) => void;
   disabled?: boolean;
   label?: string;
@@ -77,6 +83,9 @@ export function RestaurantImageUpload({
       >
         {loading ? "Uploading..." : label}
       </button>
+      <p className="mt-1 text-xs leading-relaxed text-gray-500">
+        {IMAGE_UPLOAD_SPECS[kind]}
+      </p>
       {error && <p className="text-red-600 text-xs mt-1">{error}</p>}
     </div>
   );

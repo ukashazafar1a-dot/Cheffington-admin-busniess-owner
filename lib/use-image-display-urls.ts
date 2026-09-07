@@ -8,12 +8,16 @@ export function useImageDisplayUrls(urls: string[]) {
     {}
   );
 
-  const key = urls.filter(Boolean).join("\n");
+  // Stable dependency — callers often pass a new array literal each render.
+  const key = (urls || []).filter(Boolean).join("\n");
 
   useEffect(() => {
-    const list = urls.filter(Boolean);
+    const list = key ? key.split("\n").filter(Boolean) : [];
     if (list.length === 0) {
-      setDisplayByStored({});
+      // Avoid setState when already empty (prevents update-depth loops).
+      setDisplayByStored((prev) =>
+        Object.keys(prev).length === 0 ? prev : {}
+      );
       return;
     }
 
@@ -29,13 +33,17 @@ export function useImageDisplayUrls(urls: string[]) {
         setDisplayByStored(next);
       })
       .catch(() => {
-        if (!cancelled) setDisplayByStored({});
+        if (!cancelled) {
+          setDisplayByStored((prev) =>
+            Object.keys(prev).length === 0 ? prev : {}
+          );
+        }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [key, urls]);
+  }, [key]);
 
   const displayUrl = (stored: string) => displayByStored[stored] || stored;
 

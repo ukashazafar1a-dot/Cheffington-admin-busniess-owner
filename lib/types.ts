@@ -39,8 +39,12 @@ export interface Restaurant {
   longitude?: number | null;
   geocodePrecision?: "exact" | "city" | "region" | "none";
   images?: string[];
+  /** Circular logo on the public restaurant page */
+  logoUrl?: string;
   contentSections?: ContentSection[];
-  status: "draft" | "published" | "archived";
+  status: "draft" | "pending_review" | "published" | "archived" | "rejected";
+  ownerListingApproved?: boolean;
+  listingReviewNote?: string;
   createdAt?: string;
   updatedAt?: string;
 }
