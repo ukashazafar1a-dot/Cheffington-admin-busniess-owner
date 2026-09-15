@@ -51,6 +51,10 @@ export function RestaurantSidebarFields({
   ]);
   const canUpload = Boolean(restaurantId && form.name?.trim());
   const logoUrl = (form.logoUrl ?? "").trim();
+  const status = form.status;
+  const showRejectedStatusOptions = status === "rejected";
+  const showUnapprovedDraftOption =
+    !canPublish && status !== "rejected" && status !== "pending_review";
 
   return (
     <div className="mb-8 pb-8 border-b border-gray-200">
@@ -249,7 +253,7 @@ export function RestaurantSidebarFields({
               onChange={onChange}
               className="w-full border border-gray-300 rounded px-3 py-2"
             >
-              {form.status === "rejected" ? (
+              {showRejectedStatusOptions ? (
                 <>
                   <option value="rejected">Rejected</option>
                   <option value="pending_review">Submit for review</option>
@@ -262,13 +266,11 @@ export function RestaurantSidebarFields({
                   <option value="archived">Archived</option>
                 </>
               ) : null}
-              {!canPublish &&
-              form.status !== "rejected" &&
-              form.status !== "pending_review" ? (
+              {showUnapprovedDraftOption ? (
                 <option value="draft">Draft</option>
               ) : null}
             </select>
-            {!canPublish && form.status === "rejected" ? (
+            {!canPublish && showRejectedStatusOptions ? (
               <p className="mt-1 text-xs text-gray-600">
                 Choose &quot;Submit for review&quot; after fixing details to send
                 it back to admin.
