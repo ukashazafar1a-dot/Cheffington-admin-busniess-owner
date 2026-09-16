@@ -98,6 +98,20 @@ export class APIClient {
     return data;
   }
 
+  static async ownerForgotPassword(email: string) {
+    return this.request("/auth/owner-forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    });
+  }
+
+  static async ownerResetPassword(token: string, password: string) {
+    return this.request("/auth/owner-reset-password", {
+      method: "POST",
+      body: JSON.stringify({ token, password }),
+    });
+  }
+
   static logout() {
     localStorage.removeItem("owner_token");
   }

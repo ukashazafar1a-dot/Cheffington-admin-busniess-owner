@@ -71,6 +71,14 @@ export function OwnerLogin() {
               disabled={isSubmitting}
               autoComplete="current-password"
             />
+            <div className="mt-2 text-right">
+              <a
+                href="/forgot-password"
+                className="text-sm font-medium text-[#ff8400] hover:underline"
+              >
+                Forgot password?
+              </a>
+            </div>
           </div>
           {(error || authError) && (
             <p className="text-red-600 text-sm">{error || authError}</p>
