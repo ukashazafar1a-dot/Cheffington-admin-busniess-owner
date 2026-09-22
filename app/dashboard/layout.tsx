@@ -33,6 +33,7 @@ export default function DashboardLayout({
   const nav = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/dashboard/restaurants", label: "Restaurants" },
+    { href: "/dashboard/ads", label: "My Ads" },
   ];
 
   const isNavActive = (href: string) => {

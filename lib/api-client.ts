@@ -128,6 +128,39 @@ export class APIClient {
     return this.request("/owner/dashboard/stats");
   }
 
+  static async getOwnerAdvertising() {
+    return this.request("/owner/advertising") as Promise<{
+      success: boolean;
+      data: import("./types").OwnerAdvertisingOverview;
+      message?: string;
+    }>;
+  }
+
+  static async getOwnerAdAnalytics(params?: {
+    from?: string;
+    to?: string;
+    campaignId?: string;
+    placementKey?: string;
+    targetRegionKey?: string;
+  }) {
+    const search = new URLSearchParams();
+    if (params?.from) search.set("from", params.from);
+    if (params?.to) search.set("to", params.to);
+    if (params?.campaignId) search.set("campaignId", params.campaignId);
+    if (params?.placementKey) search.set("placementKey", params.placementKey);
+    if (params?.targetRegionKey) {
+      search.set("targetRegionKey", params.targetRegionKey);
+    }
+    const qs = search.toString();
+    return this.request(
+      `/owner/advertising/analytics${qs ? `?${qs}` : ""}`
+    ) as Promise<{
+      success: boolean;
+      data: import("./types").OwnerAdAnalyticsData;
+      message?: string;
+    }>;
+  }
+
   static async getRestaurant(id: string) {
     return this.request(`/owner/restaurants/${id}`);
   }

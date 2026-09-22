@@ -73,3 +73,73 @@ export interface OwnerDashboardStats {
     date: string;
   }>;
 }
+
+export interface OwnerAdCampaign {
+  _id: string;
+  businessName: string;
+  placementKey: string;
+  targetRegionKey: string;
+  status: string;
+  campaignType: string;
+  billingMode?: string;
+  startDate?: string;
+  endDate?: string;
+  imageUrl?: string;
+  linkUrl?: string;
+  restaurantId?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OwnerAdRequest {
+  _id: string;
+  businessName: string;
+  placementKey: string;
+  targetRegionKey?: string;
+  days: number;
+  status: string;
+  paymentStatus: string;
+  billingMode?: string;
+  needsDesign?: boolean;
+  campaignId?: string | null;
+  startDate?: string;
+  endDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OwnerAdvertisingOverview {
+  email: string;
+  campaigns: OwnerAdCampaign[];
+  requests: OwnerAdRequest[];
+}
+
+export interface OwnerAdAnalyticsCampaignRow {
+  campaignId: string;
+  businessName: string;
+  placementKey: string;
+  targetRegionKey: string;
+  status: string;
+  campaignType: string;
+  impressions: number;
+  clicks: number;
+  ctr: number;
+}
+
+export interface OwnerAdAnalyticsData {
+  from: string;
+  to: string;
+  summary: {
+    impressions: number;
+    clicks: number;
+    ctr: number;
+  };
+  byCampaign: OwnerAdAnalyticsCampaignRow[];
+  byDay: Array<{ date: string; impressions: number; clicks: number }>;
+  byPlacement: Array<{
+    placementKey: string;
+    impressions: number;
+    clicks: number;
+    ctr: number;
+  }>;
+}
